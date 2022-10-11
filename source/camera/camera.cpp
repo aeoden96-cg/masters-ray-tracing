@@ -31,7 +31,15 @@ camera::camera(
 
 }
 
+/**
+ * @brief Vraća zraku koja je izračunata na osnovu koordinata s i t, s kamerom(okom) kao ishodištem
+ * 
+ * @param s horizontalna koordinata
+ * @param t vertikalna koordinata
+ * @return ishodišna zraka
+ */
 ray camera::get_ray(float s, float t) const {
+
     glm::vec3 rd = lens_radius * random_in_unit_disk();
     glm::vec3 offset = u * rd.x + v * rd.y;
     

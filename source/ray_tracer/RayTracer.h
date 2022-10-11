@@ -26,7 +26,17 @@ public:
       point3 look_at
       );
 
-    color ray_color(const ray& r, const color& background, const hittable& world, int depth);
+    /**
+     * @brief Ispušta zraku i vraća boju koja dobivena na sljedeći način:
+     *  1. Ako je zraka udarila u objekt, vraća se boja objekta
+     *  2. Ako zraka nije udarila u objekt, vraća se boja pozadine
+     * @param r zraka
+     * @param background boja pozadine
+     * @param world skup svih objekata u sceni
+     * @param depth dubina rekurzije
+     * @return konačna boja
+     */
+    color trace_ray(const ray& r, const color& background, const hittable& world, int depth);
 
 private:
     int width;

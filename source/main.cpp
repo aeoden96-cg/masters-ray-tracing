@@ -19,17 +19,30 @@ hittable_list cornell_box() {
     auto red   = make_shared<lambertian>(color(.65, .05, .05));
     auto white = make_shared<lambertian>(color(.73, .73, .73));
     auto green = make_shared<lambertian>(color(.12, .45, .15));
+    auto blue = make_shared<lambertian>(color(.12, .15, .45));
     auto light = make_shared<diffuse_light>(color(15, 15, 15));
+    auto glass = make_shared<dielectric>(1.5);
 
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
-    objects.add(make_shared<xz_rect>(213, 343, 227, 332, 554, light));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+    auto albedo = color(0.7, 0.6, 0.5);
+    auto fuzz = random_double(0, 0.5);
+    auto metal_mat = make_shared<metal>(albedo, fuzz);
 
-    objects.add(make_shared<box>(point3(130, 0, 65), point3(295, 165, 230), white));
-    objects.add(make_shared<box>(point3(265, 0, 295), point3(430, 330, 460), white));
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green)); //left wall
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red)); //right wall
+
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white)); //floor
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white)); //ceiling
+    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white)); //back wall
+
+    objects.add(make_shared<xz_rect>(213, 343, 227, 332, 554, light)); // ceiling light
+
+
+
+    objects.add(make_shared<sphere>(point3(90, 150, 60), 10, light));
+    objects.add(make_shared<box>(point3(0, 0, 0), point3(165, 50, 165), blue));
+
+    objects.add(make_shared<sphere>(point3(460, 90, 65), 90, glass));
+    objects.add(make_shared<box>(point3(265, 0, 295), point3(430, 330, 460), metal_mat));
 
 
 

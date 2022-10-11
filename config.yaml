@@ -2,7 +2,7 @@
 
 ratio: [1 ,1]
 image_width: 600
-samples_per_pixel: 400
+samples_per_pixel: 20
 max_depth: 50
 
 camera:

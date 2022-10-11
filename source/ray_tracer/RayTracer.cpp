@@ -4,11 +4,11 @@
 
 
 RayTracer::RayTracer(
-  int width, 
+  int width,
   float aspect_ratio,
   int max_depth,
   int samples_per_pixel)
-  : 
+  :
   width(width),
   max_depth(max_depth),
   samples_per_pixel(samples_per_pixel){
@@ -42,7 +42,7 @@ void RayTracer::render(const hittable_list& world){
               float u = (float)(i + random_double()) / (float)(width-1);
               float v = (float)(j + random_double()) / (float)(height-1);
               ray r = cam.get_ray(u, v);
-              pixel_color += ray_color(r,background, world, max_depth);
+              pixel_color += trace_ray(r,background, world, max_depth);
           }
           write_color(file_out, pixel_color, samples_per_pixel);
       }
@@ -64,31 +64,26 @@ void RayTracer::calculate_camera_and_viewport(
 }
 
 
-color RayTracer::ray_color(const ray& r, const color& background, const hittable& world, int depth){
-        hit_record rec;
+color RayTracer::trace_ray(const ray& r, const color& background, const hittable& world, int depth){
+    hit_record rec;
 
-        // If we've exceeded the ray bounce limit, no more light is gathered.
-        if (depth <= 0)
-            return {0,0,0};
+    // If we've exceeded the ray bounce limit, no more light is gathered.
+    if (depth <= 0)
+        return {0,0,0};
 
-        // If the ray hits nothing, return the background color.
-        if (!world.hit(r, 0.001, infinity, rec))
-            return background;
-
-
-        ray scattered;
-        color attenuation;
-        color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
-
-        if (!rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-            return emitted;
-
-        return emitted + attenuation * ray_color(scattered, background, world, depth-1);
+    // If the ray hits nothing, return the background color.
+    if (!world.hit(r, 0.001, infinity, rec))
+        return background;
 
 
-        glm::vec3 unit_direction = glm::normalize(r.direction());
-        auto t = 0.5*(unit_direction.y + 1.0);
-        return (float)(1.0-t)*color(1.0, 1.0, 1.0) + (float)t*color(0.5, 0.7, 1.0);
-    }
+    ray scattered;
+    color attenuation;
+    color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
+
+    if (!rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        return emitted;
+
+    return emitted + attenuation * trace_ray(scattered, background, world, depth-1);
+}
 
 
