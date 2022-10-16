@@ -1,0 +1,60 @@
+materials:
+  - name: red
+    type: lambertian
+    color: [.65, .05, .05]
+  - name: white
+    type: lambertian
+    color: [.73, .73, .73]
+  - name: green
+    type: lambertian
+    color: [.12, .45, .15]
+  - name: blue
+    type: lambertian
+    color: [.12, .15, .45]
+  - name: light
+    type: diffuse_light
+    color: [15, 15, 15]
+  - name: glass
+    type: dielectric
+    ior: 1.5
+  - name: metal
+    type: metal
+    color: [.7, .6, .5]
+#    fuzz: random fuzzz
+
+objects:
+  - name: left_wall
+    type: yz_rect
+    material: green
+    size: [0, 555, 0, 555, 555]
+  - name: right_wall
+    type: yz_rect
+    material: red
+    size: [0, 555, 0, 555, 0]
+  - name: floor
+    type: xz_rect
+    material: white
+    size: [0, 555, 0, 555, 0]
+  - name: ceiling
+    type: xz_rect
+    material: white
+    size: [0, 555, 0, 555, 555]
+  - name: back_wall
+    type: xy_rect
+    material: white
+    size: [0, 555, 0, 555, 555]
+  - name: light
+    type: xz_rect
+    material: light
+    size: [213, 343, 227, 332, 554]
+  - name: glass_sphere
+    type: sphere
+    material: glass
+    center: [190, 90, 190]
+    radius: 90
+  - name: metal_sphere
+    type: sphere
+    material: metal
+    center: [400, 100, 400]
+    radius: 100
+

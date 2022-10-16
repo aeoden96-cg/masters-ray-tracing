@@ -1,21 +1,15 @@
 ---
-
 ratio: [1 ,1]
 image_width: 600
 samples_per_pixel: 20
 max_depth: 50
+scene: "cornell_box"
 
 camera:
   viewport_height: 2.0
   focal_length: 1.0
-
-  # cornell box
-  look_at: [278, 278, 0]
-  origin: [278.0, 278.0, -800]
-
-#  random_scene
-#  origin: [13, 2, 3]
-#  look_at: [0, 0, 0]
+  look_at: [278,   278,      0]
+  origin:  [278.0, 278.0, -800]
 
 
 
