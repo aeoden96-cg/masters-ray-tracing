@@ -1,5 +1,6 @@
 
 #include <fstream>
+#include <chrono>
 #include "utils/utils.h"
 
 #include "objects/hittable.h"
@@ -114,6 +115,36 @@ int main() {
     auto world = loadSceneFromFile(fileName);
 
     std::cout << "Rendering..." << std::endl;
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     // Render
-    tracer.render(world);
+    tracer.render(world, fileName, begin);
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    std::string time = std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000.0f).substr(0, 5);
+
+    std::cout << "\nTime elapsed: " << time << "s" << std::endl;
+
+    //run command
+    std::string command = std::string("convert -pointsize 20 -fill '#000A' -draw 'rectangle 0,0,150,140' -fill yellow -weight 500 -draw '") +
+            "text 20,40 \"" + fileName + "\" " +
+            "text 20,65 \"Samples: " +
+            std::to_string(samples_per_pixel) + "\" " +
+            "text 20,90 \"Max depth: " +
+            std::to_string(max_depth) + "\" " +
+            "text 20,115 \"Time: " +
+            time + "s\" " +
+            "' " + fileName + ".ppm " + fileName + "_s" + std::to_string(samples_per_pixel) + "_d" + std::to_string(max_depth) + ".png";
+
+
+    std::string command2 = std::string("rm ") + fileName + ".ppm";
+
+    std::cout << "\nRunning command: " << command << std::endl;
+
+
+
+    system(command.c_str());
+    system(command2.c_str());
+
+
 }

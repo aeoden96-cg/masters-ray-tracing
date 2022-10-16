@@ -1,8 +1,8 @@
 ---
 ratio: [1 ,1]
 image_width: 600
-samples_per_pixel: 20
-max_depth: 50
+samples_per_pixel: 200
+max_depth: 4
 scene: "cornell_box"
 
 camera:

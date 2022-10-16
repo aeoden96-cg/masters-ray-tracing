@@ -2,6 +2,7 @@
 #define PROJECT_RAYTRACER_H
 
 #include <fstream>
+#include <chrono>
 #include "../utils/utils.h"
 #include "../objects/hittable.h"
 #include "../objects/hittable_list.h"
@@ -16,7 +17,7 @@ class RayTracer {
 public:
     RayTracer(int width, float aspect_ratio,int max_depth,int samples_per_pixel);
 
-    void render(const hittable_list& world);
+    void render(const hittable_list &world, std::string &fileName, std::chrono::steady_clock::time_point begin_time);
 
     void calculate_camera_and_viewport(
       float viewport_width,

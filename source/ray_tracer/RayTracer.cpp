@@ -15,9 +15,10 @@ RayTracer::RayTracer(
   height = static_cast<int>((float)width / aspect_ratio);
 }
 
-void RayTracer::render(const hittable_list& world){
+void
+RayTracer::render(const hittable_list &world, std::string &fileName, std::chrono::steady_clock::time_point begin_time) {
   color background(0,0,0);
-  std::fstream file_out("image.ppm", std::ios::out);
+  std::fstream file_out(fileName + ".ppm", std::ios::out);
 
   //vfov is a vertical field of view in degrees
   //focus_dist is the distance between the camera and the focus plane
@@ -35,7 +36,12 @@ void RayTracer::render(const hittable_list& world){
   file_out << "P3\n" << width << ' ' << height << "\n255\n";
 
   for (int j = height-1; j >= 0; --j) {
-      std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+      auto current_time = std::chrono::steady_clock::now();
+      std::string time = std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(current_time - begin_time).count() / 1000.0f).substr(0, 5);
+
+      auto percentage = std::to_string(100 -(float)j/(float)height *100.0f).substr(0, 4);
+
+      std::cerr << "\rScanlines remaining: " << j << ' ' <<  percentage << "%  Time elapsed: " << time << "s" << std::flush;
       for (int i = 0; i < width; ++i) {
           color pixel_color(0, 0, 0);
           for (int s = 0; s < samples_per_pixel; ++s) {
