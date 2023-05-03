@@ -75,7 +75,7 @@ hittable_list loadSceneFromFile(const std::string& filename) {
 int main() {
 
     //get yaml node
-    YAML::Node input = YAML::LoadFile("input.yaml");
+    // YAML::Node input = YAML::LoadFile("input.yaml");
     YAML::Node config = YAML::LoadFile("config.yaml");
 
     float aspect_ratio = config["ratio"][0].as<float>() / config["ratio"][1].as<float>();
